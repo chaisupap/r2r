@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แบบประเมินผลการอบรม R2R/R2D</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wine: #6B1E2E;
+  --wine-dark: #4A0E1A;
+  --wine-light: #F9EEF0;
+  --gold: #C9A84C;
+  --gold-light: #F0DFA0;
+  --cream: #FDFAF3;
+  --warm-gray: #F5F0E8;
+  --text: #1A120A;
+  --mid: #4A3728;
+  --muted: #8B7355;
+  --border: #DDD0B8;
+  --white: #FFFFFF;
+  --blue: #1B4F72;
+  --blue-bg: #D6EAF8;
+  --green: #1A5C36;
+  --green-bg: #E8F5EE;
+  --orange: #6B3A1E;
+  --orange-bg: #FAE5D3;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Sarabun', sans-serif;
+  background: #E8E2D8;
+  min-height: 100vh;
+  padding: 32px 16px 72px;
+  color: var(--text);
+}
+.page { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+/* ── BANNER ── */
+.banner {
+  background: var(--wine);
+  border-radius: 10px 10px 0 0;
+  border-top: 7px solid var(--gold);
+  padding: 28px 32px 26px;
+  position: relative;
+}
+.banner-tag {
+  display: inline-block;
+  background: rgba(201,168,76,0.2);
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 2px; margin-bottom: 12px;
+}
+.banner h1 { font-family:'Noto Serif Thai',serif; font-size:26px; font-weight:700; color:#fff; line-height:1.45; margin-bottom:5px; }
+.banner-sub { font-size:13.5px; color:rgba(255,255,255,0.65); margin-bottom:18px; }
+.banner-goal {
+  display:flex; align-items:flex-start; gap:10px;
+  background:rgba(255,255,255,0.09); border:1px solid rgba(201,168,76,0.35);
+  border-radius:7px; padding:12px 16px;
+}
+.banner-goal .icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+.banner-goal p { font-size:13px; color:var(--gold-light); line-height:1.65; }
+.banner-goal strong { color:#fff; }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap { background:#fff; border-radius:6px; padding:14px 20px; border:1px solid var(--border); }
+.progress-label { display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:8px; }
+.progress-track { background:#EDE0C8; border-radius:99px; height:7px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--wine),var(--gold)); border-radius:99px; width:0%; transition:width 0.4s ease; }
+
+/* ── CARDS ── */
+.card {
+  background:#fff; border-radius:8px; padding:24px 28px;
+  border:1px solid var(--border);
+  box-shadow:0 1px 5px rgba(0,0,0,0.05);
+  animation: fadeUp 0.35s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+.req-note { font-size:12.5px; color:var(--muted); padding:0 4px; }
+.req-note span { color:#c0392b; font-weight:700; }
+
+/* section header strip */
+.sec-strip {
+  display:flex; align-items:center; gap:10px;
+  background:var(--wine); border-radius:5px;
+  padding:9px 14px; margin-bottom:18px;
+}
+.sec-strip .num {
+  background:rgba(255,255,255,0.15); color:var(--gold-light);
+  font-size:11px; font-weight:800; letter-spacing:1px;
+  padding:2px 8px; border-radius:3px;
+}
+.sec-strip .title { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:#fff; }
+
+/* sub-section */
+.sub-sec { margin-bottom:20px; }
+.sub-label {
+  font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--wine); border-left:3px solid var(--gold);
+  padding:3px 10px 3px 8px; background:var(--wine-light);
+  border-radius:0 3px 3px 0; display:inline-block; margin-bottom:14px;
+}
+
+/* question label */
+.q-label { font-size:14.5px; font-weight:600; color:var(--text); line-height:1.6; margin-bottom:12px; }
+.q-label .req { color:#c0392b; }
+.q-hint { font-size:12px; color:var(--muted); font-style:italic; margin-top:-8px; margin-bottom:12px; }
+.q-divider { border:none; border-top:1px solid #EDE0C8; margin:20px 0; }
+
+/* ── TEXT INPUTS ── */
+.input-line {
+  width:100%; border:none; border-bottom:2px solid var(--border);
+  padding:8px 2px; font-size:14.5px; font-family:'Sarabun',sans-serif;
+  color:var(--text); background:transparent; outline:none; transition:border-color .2s;
+}
+.input-line:focus { border-bottom-color:var(--wine); }
+.textarea {
+  width:100%; border:1px solid var(--border); border-radius:6px;
+  padding:10px 12px; font-size:14px; font-family:'Sarabun',sans-serif;
+  color:var(--text); background:var(--cream); outline:none;
+  resize:vertical; min-height:80px; transition:border-color .2s; line-height:1.7;
+}
+.textarea:focus { border-color:var(--wine); background:#fff; }
+
+/* ── RATING SCALE ── */
+.scale-wrap { overflow-x:auto; padding-bottom:4px; }
+.scale-table { width:100%; border-collapse:collapse; min-width:380px; }
+.scale-table thead th {
+  font-size:11px; font-weight:700; color:var(--muted);
+  padding:0 4px 10px; text-align:center; white-space:nowrap;
+}
+.scale-table thead th:first-child { text-align:left; padding-left:0; width:50%; }
+.scale-table tbody tr { border-top:1px solid #F0E8D8; transition:background .15s; }
+.scale-table tbody tr:hover { background:var(--warm-gray); }
+.scale-table tbody td { padding:9px 4px; text-align:center; vertical-align:middle; }
+.scale-table tbody td:first-child { text-align:left; padding-left:0; font-size:13.5px; color:var(--text); line-height:1.5; }
+.scale-table input[type="radio"] {
+  appearance:none; width:17px; height:17px;
+  border:2px solid #C8B89A; border-radius:50%;
+  cursor:pointer; display:block; margin:0 auto;
+  transition:all .18s; position:relative;
+}
+.scale-table input[type="radio"]:checked { background:var(--wine); border-color:var(--wine); box-shadow:0 0 0 3px rgba(107,30,46,.15); }
+.scale-table input[type="radio"]:hover { border-color:var(--wine); }
+.scale-ends { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:4px; padding:0 2px; }
+
+/* ── OPTIONS (radio/checkbox) ── */
+.opt-list { display:flex; flex-direction:column; gap:9px; }
+.opt-item {
+  display:flex; align-items:flex-start; gap:11px;
+  padding:10px 14px; border:1px solid var(--border);
+  border-radius:6px; cursor:pointer; background:var(--cream);
+  transition:all .18s;
+}
+.opt-item:hover { border-color:var(--wine); background:#FDF5F6; }
+.opt-item input[type="radio"], .opt-item input[type="checkbox"] {
+  appearance:none; width:17px; height:17px;
+  border:2px solid #C8B89A; border-radius:50%;
+  cursor:pointer; flex-shrink:0; margin-top:3px;
+  transition:all .18s; position:relative;
+}
+.opt-item input[type="checkbox"] { border-radius:4px; }
+.opt-item input[type="radio"]:checked,
+.opt-item input[type="checkbox"]:checked { background:var(--wine); border-color:var(--wine); box-shadow:0 0 0 3px rgba(107,30,46,.15); }
+.opt-item input[type="radio"]:checked::after {
+  content:''; display:block; width:5px; height:5px;
+  background:#fff; border-radius:50%;
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+}
+.opt-item input[type="checkbox"]:checked::after {
+  content:'✓'; display:block; color:#fff; font-size:10px;
+  font-weight:700; text-align:center; line-height:13px;
+}
+.opt-text { font-size:13.5px; line-height:1.6; color:var(--text); }
+
+/* ── SUBMIT ── */
+.submit-btn {
+  display:block; width:100%; padding:16px;
+  background:var(--wine); color:#fff;
+  font-family:'Sarabun',sans-serif; font-size:16px; font-weight:700;
+  border:none; border-radius:8px; cursor:pointer;
+  transition:background .2s, transform .15s; letter-spacing:.5px;
+}
+.submit-btn:hover { background:var(--wine-dark); transform:translateY(-1px); }
+.submit-btn:active { transform:translateY(0); }
+
+/* ── SUCCESS OVERLAY ── */
+.overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(26,18,8,.6); z-index:999;
+  align-items:center; justify-content:center;
+  padding:20px; backdrop-filter:blur(3px);
+}
+.overlay.show { display:flex; }
+.overlay-box {
+  background:#fff; border-radius:12px; padding:40px 36px;
+  max-width:400px; width:100%; text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  animation:popIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+.overlay-icon { font-size:52px; margin-bottom:14px; }
+.overlay-title { font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--wine); margin-bottom:10px; }
+.overlay-msg { font-size:14px; color:var(--muted); line-height:1.75; margin-bottom:22px; }
+.overlay-close {
+  padding:10px 32px; background:var(--wine); color:#fff;
+  border:none; border-radius:6px;
+  font-family:'Sarabun',sans-serif; font-size:14.5px; font-weight:600; cursor:pointer;
+}
+
+@media(max-width:520px){
+  .card{padding:18px 16px;}
+  .banner{padding:22px 18px 20px;}
+  .scale-table tbody td:first-child{font-size:12.5px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-tag">R2R / R2D &nbsp;·&nbsp; คณะเศรษฐศาสตร์ มข.</div>
+    <h1>แบบประเมินผลการอบรม<br>การทำวิจัยสายสนับสนุนวิชาการ</h1>
+    <div class="banner-sub">โครงการพัฒนาศักยภาพบุคลากรสายสนับสนุน &nbsp;|&nbsp; คณะเศรษฐศาสตร์ มหาวิทยาลัยขอนแก่น</div>
+    <div class="banner-goal">
+      <div class="icon">🎯</div>
+      <p><strong>เป้าหมายสูงสุด :</strong> ผลงานวิจัยได้รับการตีพิมพ์ใน<strong>วารสารที่อยู่ในฐาน TCI กลุ่ม 1 หรือ กลุ่ม 2</strong> เพื่อพัฒนาคุณภาพงานและองค์กรอย่างยั่งยืน</p>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="prog-label">ความคืบหน้า</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div class="req-note">ช่องที่มีเครื่องหมาย <span>*</span> จำเป็นต้องกรอก</div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 1 : ข้อมูลผู้ตอบ
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 1</span><span class="title">ข้อมูลผู้ตอบแบบประเมิน</span></div>
+
+    <div class="q-label">ชื่อ-สกุล (หรือชื่อเล่น) <span class="req">*</span></div>
+    <input type="text" class="input-line req-field" placeholder="ระบุชื่อ...">
+
+    <hr class="q-divider">
+    <div class="q-label">หน่วยงาน / งานที่รับผิดชอบ <span class="req">*</span></div>
+    <input type="text" class="input-line req-field" placeholder="เช่น งานพัสดุ, งานบุคคล...">
+
+    <hr class="q-divider">
+    <div class="q-label">หัวข้อโครงการ R2R/R2D ของท่าน <span class="req">*</span></div>
+    <input type="text" class="input-line req-field" placeholder="ระบุชื่อหัวข้อวิจัยของท่าน...">
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 2 : ประเมินการอบรม
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 2</span><span class="title">ประเมินการอบรมและสถานที่</span></div>
+    <p class="q-hint" style="margin-bottom:16px;">กรุณาให้คะแนนในแต่ละด้าน &nbsp;(1 = น้อยที่สุด &nbsp;→&nbsp; 5 = มากที่สุด)</p>
+
+    <!-- 2A -->
+    <div class="sub-sec">
+      <div class="sub-label">2A &nbsp;·&nbsp; ภาพรวมการอบรม</div>
+      <div class="scale-wrap">
+        <table class="scale-table">
+          <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="scale-2a"></tbody>
+        </table>
+      </div>
+      <div class="scale-ends"><span>น้อยที่สุด</span><span>มากที่สุด</span></div>
+    </div>
+
+    <!-- 2B -->
+    <div class="sub-sec">
+      <div class="sub-label">2B &nbsp;·&nbsp; ประเมินวิทยากรรายบุคคล</div>
+      <p class="q-hint" style="margin-bottom:10px;">ด้านการถ่ายทอด : ความชัดเจน / เข้าใจง่าย / ประโยชน์ต่อผู้เรียน</p>
+      <div class="scale-wrap">
+        <table class="scale-table">
+          <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="scale-2b"></tbody>
+        </table>
+      </div>
+      <div class="scale-ends"><span>น้อยที่สุด</span><span>มากที่สุด</span></div>
+      <p class="q-hint" style="margin-top:18px; margin-bottom:10px;">ด้านประโยชน์ : ความรู้ที่ได้รับสามารถนำไปใช้ในงานวิจัยได้มากน้อยเพียงใด</p>
+      <div class="scale-wrap">
+        <table class="scale-table">
+          <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="scale-3a"></tbody>
+        </table>
+      </div>
+      <div class="scale-ends"><span>น้อยที่สุด</span><span>มากที่สุด</span></div>
+    </div>
+
+    <!-- 2C -->
+    <div class="sub-sec">
+      <div class="sub-label">2C &nbsp;·&nbsp; สถานที่และการอำนวยความสะดวก</div>
+      <div class="scale-wrap">
+        <table class="scale-table">
+          <thead><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="scale-2c"></tbody>
+        </table>
+      </div>
+      <div class="scale-ends"><span>น้อยที่สุด</span><span>มากที่สุด</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 3 : ความรู้และทักษะ
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 3</span><span class="title">ความรู้และทักษะที่ได้รับ</span></div>
+
+    <!-- 3B (ความรู้และทักษะ) -->
+    <div class="sub-sec">
+      <div class="sub-label">3A &nbsp;·&nbsp; ภาพรวมความรู้และทักษะ</div>
+
+      <div class="q-label">หลังการอบรม ท่านมีความเข้าใจกระบวนการวิจัย R2R/R2D ในระดับใด <span class="req">*</span></div>
+      <div class="opt-list">
+        <label class="opt-item"><input type="radio" name="understand"><span class="opt-text">เข้าใจเป็นอย่างดี สามารถดำเนินการได้ด้วยตนเอง</span></label>
+        <label class="opt-item"><input type="radio" name="understand"><span class="opt-text">เข้าใจโดยรวม แต่ยังต้องการคำแนะนำบางขั้นตอน</span></label>
+        <label class="opt-item"><input type="radio" name="understand"><span class="opt-text">เข้าใจบ้าง ต้องการการสนับสนุนอย่างต่อเนื่อง</span></label>
+        <label class="opt-item"><input type="radio" name="understand"><span class="opt-text">ยังไม่ค่อยเข้าใจ ต้องการการอบรมเพิ่มเติม</span></label>
+      </div>
+
+      <hr class="q-divider">
+      <div class="q-label">ทักษะที่ท่านได้รับมากที่สุดจากการอบรม <span class="req">*</span> <small style="font-weight:400;color:var(--muted)">(เลือกได้มากกว่า 1 ข้อ)</small></div>
+      <div class="opt-list">
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การกำหนดโจทย์วิจัยจากงานประจำ</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การออกแบบระเบียบวิธีวิจัย (QN / QL / Mixed)</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การเก็บรวบรวมและวิเคราะห์ข้อมูล</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การเขียนบทความวิชาการ / รายงานวิจัย</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การเลือกวารสารและการส่งผลงานเพื่อตีพิมพ์</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การนำผลวิจัยไปพัฒนางานประจำ</span></label>
+        <label class="opt-item"><input type="checkbox"><span class="opt-text">การพัฒนาตัวชี้วัดรายบุคคล</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 4 : แผนการนำผลงานไปใช้
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 4</span><span class="title">แผนการนำผลงานไปใช้</span></div>
+
+    <div class="q-label">ท่านสนใจการนำผลงานนี้ไปใช้ในด้านใด <span class="req">*</span> <small style="font-weight:400;color:var(--muted)">(เลือกได้มากกว่า 1 ข้อ)</small></div>
+    <div class="opt-list">
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">นำเสนอในเวทีวิชาการในหรือต่างประเทศโดยทุนคณะ</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">ใช้ประเมินผลการปฏิบัติงานรายบุคคล</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">ใช้เพื่อขอตำแหน่งทางวิชาการในสายอาชีพ</span></label>
+    </div>
+
+    <hr class="q-divider">
+    <div class="q-label">ระยะเวลาที่คาดว่าจะสามารถส่งผลงานได้ <span class="req">*</span></div>
+    <div class="opt-list">
+      <label class="opt-item"><input type="radio" name="timeline"><span class="opt-text">ภายใน 3 เดือน</span></label>
+      <label class="opt-item"><input type="radio" name="timeline"><span class="opt-text">ภายใน 6 เดือน</span></label>
+      <label class="opt-item"><input type="radio" name="timeline"><span class="opt-text">ภายใน 1 ปี</span></label>
+      <label class="opt-item"><input type="radio" name="timeline"><span class="opt-text">มากกว่า 1 ปี</span></label>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 5 : หัวข้อต่อยอด
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 5</span><span class="title">หัวข้อต่อยอดที่สนใจ</span></div>
+
+    <div class="q-label">กรุณาเลือกหัวข้อ/ประเด็นที่ต้องการพัฒนาต่อยอดเพื่อมุ่งสู่การตีพิมพ์ <span class="req">*</span> <small style="font-weight:400;color:var(--muted)">(เลือกได้มากกว่า 1 ข้อ)</small></div>
+    <div class="opt-list" id="topic-list"></div>
+
+    <hr class="q-divider">
+    <div class="q-label">หากมีหัวข้อต่อยอดอื่น โปรดระบุเพิ่มเติม</div>
+    <textarea class="textarea" placeholder="ระบุหัวข้อหรือประเด็นที่สนใจ..."></textarea>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       ส่วนที่ 6 : การสนับสนุนที่ต้องการ
+  ══════════════════════════════════════ -->
+  <div class="card">
+    <div class="sec-strip"><span class="num">ส่วนที่ 6</span><span class="title">การสนับสนุนที่ต้องการ</span></div>
+
+    <div class="q-label">ท่านต้องการการสนับสนุนด้านใดเพื่อให้บรรลุเป้าหมายการตีพิมพ์ <span class="req">*</span> <small style="font-weight:400;color:var(--muted)">(เลือกได้มากกว่า 1 ข้อ)</small></div>
+    <div class="opt-list">
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">พี่เลี้ยง / ผู้เชี่ยวชาญให้คำปรึกษารายบุคคล (Mentoring)</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">อบรมการเขียนบทความวิชาการภาษาไทย / ภาษาอังกฤษ</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">อบรมการใช้โปรแกรมวิเคราะห์ข้อมูล (SPSS, NVivo ฯลฯ)</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">ทุนสนับสนุนค่าตีพิมพ์ (Publication Fee)</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">เวทีนำเสนอผลงานภายในคณะ / มหาวิทยาลัย</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">ฐานข้อมูลวารสาร TCI และแนวทางการส่งผลงาน</span></label>
+      <label class="opt-item"><input type="checkbox"><span class="opt-text">การทบทวนต้นฉบับ (Manuscript Review) ก่อนส่งวารสาร</span></label>
+    </div>
+
+    <hr class="q-divider">
+    <div class="q-label">ข้อเสนอแนะเพื่อการปรับปรุงครั้งต่อไป</div>
+    <textarea class="textarea" placeholder="ข้อเสนอแนะ ความคิดเห็น หรือสิ่งที่ต้องการให้ปรับปรุง..." style="min-height:100px;"></textarea>
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="submit-btn" onclick="handleSubmit()">📨&nbsp; ส่งแบบประเมิน</button>
+
+</div><!-- /.page -->
+
+<!-- SUCCESS OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="overlay-box">
+    <div class="overlay-icon">🎉</div>
+    <div class="overlay-title">ขอบคุณสำหรับการประเมิน</div>
+    <div class="overlay-msg">ข้อมูลของท่านถูกบันทึกเรียบร้อยแล้ว<br>คณะฯ จะนำไปใช้พัฒนาการสนับสนุน<br>เพื่อมุ่งสู่การตีพิมพ์ในวารสาร <strong>TCI กลุ่ม 1–2</strong></div>
+    <button class="overlay-close" onclick="document.getElementById('overlay').classList.remove('show')">ปิด</button>
+  </div>
+</div>
+
+<script>
+// ── Scale data ─────────────────────────────────────────────
+const scale2a = [
+  "เนื้อหาการอบรมมีความเหมาะสมและครอบคลุม",
+  "เอกสาร / สื่อประกอบการอบรมมีประโยชน์",
+  "ระยะเวลาการอบรมมีความเหมาะสม",
+  "สามารถนำความรู้ไปใช้ในการทำวิจัยได้จริง",
+  "ภาพรวมความพึงพอใจในการอบรมครั้งนี้",
+];
+
+const scale2b = [
+  "รศ.ดร.ปณัทพร เรืองเชิงชุม",
+  "ผศ.ดร.วณิชชา ณรงค์ชัย",
+  "รศ.ดร.จงรักษ์ หงษ์งาม",
+];
+
+const scale2c = [
+  "สถานที่อบรมมีความเหมาะสม (ขนาด แสง เสียง อุปกรณ์)",
+  "ห้องพักมีความสะดวกสบายและเพียงพอ",
+  "การเดินทาง / การเข้าถึงสถานที่อบรมมีความสะดวก",
+  "คุณภาพอาหารและเครื่องดื่มมีความเหมาะสม",
+];
+
+const scale3a = [
+  "รศ.ดร.ปณัทพร เรืองเชิงชุม",
+  "ผศ.ดร.วณิชชา ณรงค์ชัย",
+  "รศ.ดร.จงรักษ์ หงษ์งาม",
+];
+
+const topics = [
+  "การพัฒนาระบบสารสนเทศและดิจิทัลในงานสนับสนุน",
+  "การบริหารจัดการองค์กรและธรรมาภิบาล",
+  "ประสิทธิภาพกระบวนการทำงานและลดขั้นตอน",
+  "การพัฒนาทรัพยากรมนุษย์และสมรรถนะบุคลากร",
+  "คุณภาพการบริการและความพึงพอใจของผู้รับบริการ",
+  "การประกันคุณภาพและมาตรฐานการศึกษา (AUN-QA / EdPEx)",
+  "การเงิน บัญชี พัสดุ และการตรวจสอบภายใน",
+  "นวัตกรรมการจัดการสิ่งแวดล้อมและอาคารสถานที่",
+  "การสื่อสารองค์กรและภาพลักษณ์สถาบัน",
+  "สุขภาวะและคุณภาพชีวิตบุคลากร",
+  "การจัดการความรู้และการถ่ายทอดองค์ความรู้ (KM)",
+  "เทคนิคการทบทวนวรรณกรรมวิจัย",
+  "เทคนิคการอ้างอิงที่ถูกต้องตามจริยธรรม",
+  "การขอการรับรองจริยธรรมการวิจัยในมนุษย์",
+  "อื่น ๆ (ระบุในช่องข้อเสนอแนะ)",
+];
+
+// ── Build scale tables ──────────────────────────────────────
+function buildScale(tbodyId, items, prefix) {
+  const tbody = document.getElementById(tbodyId);
+  items.forEach((item, i) => {
+    const tr = document.createElement('tr');
+    let html = `<td>${item}</td>`;
+    for (let v = 1; v <= 5; v++) {
+      html += `<td><input type="radio" name="${prefix}_${i}" value="${v}"></td>`;
+    }
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+}
+
+buildScale('scale-2a', scale2a, 's2a');
+buildScale('scale-2b', scale2b, 's2b');
+buildScale('scale-2c', scale2c, 's2c');
+buildScale('scale-3a', scale3a, 's3a');
+
+// ── Build topic checkboxes ──────────────────────────────────
+const topicList = document.getElementById('topic-list');
+topics.forEach((t, i) => {
+  const label = document.createElement('label');
+  label.className = 'opt-item';
+  label.innerHTML = `<input type="checkbox" name="topic_${i}"><span class="opt-text">${t}</span>`;
+  topicList.appendChild(label);
+});
+
+// ── Progress bar ────────────────────────────────────────────
+const allRadioGroups = ['understand','timeline','s2a_0','s2a_1','s2a_2','s2a_3','s2a_4','s2b_0','s2b_1','s2b_2','s2c_0','s2c_1','s2c_2','s3a_0','s3a_1','s3a_2'];
+const totalFields = allRadioGroups.length + 3; // +3 text inputs
+
+function updateProgress() {
+  let filled = 0;
+  document.querySelectorAll('.req-field').forEach(el => { if (el.value.trim()) filled++; });
+  allRadioGroups.forEach(name => { if (document.querySelector(`input[name="${name}"]:checked`)) filled++; });
+  const pct = Math.round((filled / totalFields) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+
+document.addEventListener('change', updateProgress);
+document.addEventListener('input', updateProgress);
+
+// ── Google Sheets URL ────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyMUHNKNRAl8DJBWEGhTZvXvoh_YtRrHsg0NMrM_kUmVk6_XuT2yugZVgHJyk9zh_uU/exec';
+
+// ── Collect all answers ──────────────────────────────────────
+function collectData() {
+  const data = {};
+  const now = new Date();
+  data['วันเวลาที่ส่ง'] = now.toLocaleString('th-TH');
+
+  // ส่วนที่ 1
+  const textFields = document.querySelectorAll('.req-field');
+  data['ชื่อ-สกุล'] = textFields[0]?.value.trim() || '';
+  data['หน่วยงาน'] = textFields[1]?.value.trim() || '';
+  data['หัวข้อวิจัย'] = textFields[2]?.value.trim() || '';
+
+  // ส่วนที่ 2A
+  scale2a.forEach((label, i) => {
+    const checked = document.querySelector(`input[name="s2a_${i}"]:checked`);
+    data[`2A_${label}`] = checked ? checked.value : '';
+  });
+
+  // ส่วนที่ 2B (การถ่ายทอด)
+  scale2b.forEach((label, i) => {
+    const checked = document.querySelector(`input[name="s2b_${i}"]:checked`);
+    data[`2B_ถ่ายทอด_${label}`] = checked ? checked.value : '';
+  });
+
+  // ส่วนที่ 3A (ประโยชน์)
+  scale3a.forEach((label, i) => {
+    const checked = document.querySelector(`input[name="s3a_${i}"]:checked`);
+    data[`2B_ประโยชน์_${label}`] = checked ? checked.value : '';
+  });
+
+  // ส่วนที่ 2C
+  scale2c.forEach((label, i) => {
+    const checked = document.querySelector(`input[name="s2c_${i}"]:checked`);
+    data[`2C_${label}`] = checked ? checked.value : '';
+  });
+
+  // ส่วนที่ 3 ความเข้าใจ
+  const understand = document.querySelector('input[name="understand"]:checked');
+  data['ความเข้าใจ R2R/R2D'] = understand ? understand.closest('.opt-item').querySelector('.opt-text').textContent.trim() : '';
+
+  // ทักษะที่ได้รับ (checkboxes)
+  const skills = [];
+  document.querySelectorAll('#\\33 B-skills .opt-item input[type="checkbox"]:checked').forEach(cb => {
+    skills.push(cb.closest('.opt-item').querySelector('.opt-text').textContent.trim());
+  });
+  // fallback: หา checkboxes ทักษะโดย section
+  if (skills.length === 0) {
+    const allChecks = document.querySelectorAll('input[type="checkbox"]:checked');
+    const skillLabels = ['การกำหนดโจทย์วิจัย','การออกแบบระเบียบวิธี','การเก็บรวบรวม','การเขียนบทความ','การเลือกวารสาร','การนำผลวิจัย','การพัฒนาตัวชี้วัด'];
+    allChecks.forEach(cb => {
+      const txt = cb.closest('.opt-item').querySelector('.opt-text').textContent.trim();
+      if (skillLabels.some(k => txt.includes(k))) skills.push(txt);
+    });
+  }
+  data['ทักษะที่ได้รับ'] = skills.join(' | ');
+
+  // ส่วนที่ 4 การนำผลงานไปใช้
+  const usage = [];
+  const timeline = document.querySelector('input[name="timeline"]:checked');
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    const txt = cb.closest('.opt-item').querySelector('.opt-text').textContent.trim();
+    if (['นำเสนอในเวที','ใช้ประเมินผล','ใช้เพื่อขอตำแหน่ง'].some(k => txt.includes(k.substring(0,5)))) usage.push(txt);
+  });
+  data['การนำผลงานไปใช้'] = usage.join(' | ');
+  data['ระยะเวลาส่งผลงาน'] = timeline ? timeline.closest('.opt-item').querySelector('.opt-text').textContent.trim() : '';
+
+  // ส่วนที่ 5 หัวข้อต่อยอด
+  const topicSelected = [];
+  document.querySelectorAll('#topic-list input[type="checkbox"]:checked').forEach(cb => {
+    topicSelected.push(cb.closest('.opt-item').querySelector('.opt-text').textContent.trim());
+  });
+  data['หัวข้อต่อยอด'] = topicSelected.join(' | ');
+
+  // textarea ทั้งหมด
+  const textareas = document.querySelectorAll('textarea');
+  data['หัวข้อต่อยอดอื่น'] = textareas[0]?.value.trim() || '';
+
+  // ส่วนที่ 6 การสนับสนุน
+  const support = [];
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    const txt = cb.closest('.opt-item').querySelector('.opt-text').textContent.trim();
+    if (['พี่เลี้ยง','อบรมการเขียน','อบรมการใช้','ทุนสนับสนุน','เวทีนำเสนอ','ฐานข้อมูล','การทบทวนต้นฉบับ'].some(k => txt.includes(k.substring(0,5)))) support.push(txt);
+  });
+  data['การสนับสนุนที่ต้องการ'] = support.join(' | ');
+  data['ข้อเสนอแนะ'] = textareas[1]?.value.trim() || '';
+
+  return data;
+}
+
+// ── Submit ───────────────────────────────────────────────────
+function handleSubmit() {
+  const btn = document.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳  กำลังส่งข้อมูล...';
+
+  const data = collectData();
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    document.getElementById('overlay').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    btn.textContent = '✅  ส่งแบบประเมินแล้ว';
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = '📨  ส่งแบบประเมิน';
+    alert('เกิดข้อผิดพลาด กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่อีกครั้งค่ะ');
+  });
+}
+</script>
+</body>
+</html>
