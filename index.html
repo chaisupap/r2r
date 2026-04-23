@@ -619,6 +619,9 @@ function handleSubmit() {
   })
   .then(() => {
     document.getElementById('overlay').classList.add('show');
+    // --- เพิ่มส่วนนี้เข้าไป ---
+    resetForm(); 
+    // -----------------------
     window.scrollTo({ top: 0, behavior: 'smooth' });
     btn.textContent = '✅  ส่งแบบประเมินแล้ว';
   })
@@ -627,6 +630,25 @@ function handleSubmit() {
     btn.textContent = '📨  ส่งแบบประเมิน';
     alert('เกิดข้อผิดพลาด กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่อีกครั้งค่ะ');
   });
+}
+
+function resetForm() {
+  // 1. ล้างช่องกรอกข้อความ (Input & Textarea)
+  document.querySelectorAll('.input-line, .textarea').forEach(el => {
+    el.value = '';
+  });
+
+  // 2. ล้างการเลือก Radio และ Checkbox
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => {
+    el.checked = false;
+  });
+
+  // 3. รีเซ็ต Progress Bar ให้กลับเป็น 0%
+  document.getElementById('prog-fill').style.width = '0%';
+  document.getElementById('prog-pct').textContent = '0%';
+
+  // 4. เลื่อนหน้าจอกลับไปด้านบนสุด
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
